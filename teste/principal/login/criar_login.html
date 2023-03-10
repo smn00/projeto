@@ -6,7 +6,7 @@
     <meta charset="utf=8" > 
     <meta name="viewport" content="width=device-width, initial-scale=1" >
     <link rel="stylesheet" href="login_geral.css">
-    <script src="confiramcao_email_senha.js"></script>
+  
 </head>
 
 <body class="geral">
@@ -18,7 +18,29 @@
 
         <h1>Formulário de Cadastro</h1>
 
-    <form class="form" action="#" method="post">
+    <form action="..\servicos php\cadastrar_usuario.php" class="form" action="#" method="post">
+        <script>
+        const form = document.querySelector(".form");
+
+        form.addEventListener("submit", function(event) {
+            const senha = document.getElementById("senha").value;
+            const confsenha = document.getElementById("confsenha").value;
+            const email = document.getElementById("email").value;
+            const confemail = document.getElementById("confemail").value;
+
+            if (senha !== confsenha) {
+                alert("As senhas não correspondem!");
+                event.preventDefault();
+            }
+
+            if (email !== confemail) {
+                alert("Os emails não correspondem!");
+                event.preventDefault();
+            }
+        });
+    </script>
+
+
         
         <div class="form_grupo">
             <label for="nome" class="form_label">Nome</label>
@@ -42,12 +64,12 @@
         
         <div class="form_grupo">
             <label name="senha">Senha</label>
-            <input type="password" nome="senha" class="form_input" id="senha"  placeholder="Insira sua senha" required>
+            <input type="password" name="senha" class="form_input" id="senha"  placeholder="Insira sua senha" required>
         </div>
         
         <div class="form_grupo">
             <label name="senha">Confirme sua senha</label>
-            <input type="password" nome="confsenha" class="form_input" id="confsenha"  placeholder="Insira sua senha" required>
+            <input type="password" name="confsenha" class="form_input" id="confsenha"  placeholder="Insira sua senha" required>
         </div>
 
         <div class="form_grupo">
@@ -63,7 +85,9 @@
               </div>
             
             </div>
+           
     </form>
 
 </div><!--container_form-->
 </body>
+</html>
