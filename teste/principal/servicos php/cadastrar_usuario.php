@@ -1,32 +1,32 @@
 <?php
-// Captura os valores do formulário
+
+require '..\conexao_bd.php';
+
 $nome = $_POST['nome'];
 $email = $_POST['email'];
-$matricula =$_POST['matricula'];
-$senha = password_hash($_POST['senha'], PASSWORD_DEFAULT);
+$matricula = $_POST['matricula'];
+$senha = $_POST['senha'];
 
-// Conecta-se ao banco de dados
-$dsn = 'mysql:host=localhost;dbname=nomedobancodedados';
-$usuario = 'nomeusuariodobancodedados';
-$senha = 'senhadobancodedados';
+// Verifica se o e-mail já está cadastrado
+$sql_verifica_email = "SELECT * FROM usuario WHERE email = '$email'";
+$resultado_verifica_email = mysqli_query($link, $sql_verifica_email);
 
-try {
-    $conexao = new PDO($dsn, $usuario, $senha);
-    $conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();
+if (mysqli_num_rows($resultado_verifica_email) > 0) {
+    // Exibe mensagem de erro e impede o cadastro
+    echo "O e-mail informado já está cadastrado. Por favor, escolha outro e-mail.";
+    header('Location: ..\criar_login.html');
+} else {
+    // Insere os dados do usuário no banco de dados
+    $sql_insere_usuario = "INSERT INTO usuario (nome, email,matricula, senha) VALUES ('$nome', '$email',$matricula, '$senha')";
+    mysqli_query($link, $sql_insere_usuario);
+
+    // Exibe mensagem de confirmação
+    
+    setcookie('mensagem', 'Usuário cadastrado com sucesso', time() + 3600); // o cookie irá expirar após 1 hora
+     header('Location:..\login\login.html');
 }
 
-// Insere as informações do usuário no banco de dados
-$sql = 'INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)';
-$stmt = $conexao->prepare($sql);
-$stmt->bindValue(':nome', $nome);
-$stmt->bindValue(':email', $email);
-$stm ->bindValue(':matricula', $matricula);
-$stmt->bindValue(':senha', $senha);
-$stmt->execute();
+// Fecha a conexão com o banco de dados
 
-// Exibe uma mensagem de sucesso
-echo 'Cadastro realizado com sucesso!';
 ?>
 
