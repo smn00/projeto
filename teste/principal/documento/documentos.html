@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <form action="upload.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Enviar">
+        </form>
+
+        <form action="edit_or_delete_file.php" method="post">
+        <input type="text" name="fileName" placeholder="Nome do arquivo a ser editado ou apagado">
+        <select name="action">
+            <option value="edit">Editar</option>
+            <option value="delete">Apagar</option>
+        </select>
+        <select name="action">
+            <option value="edit">publico</option>
+            <option value="delete">privado</option>
+        </select>
+
+        <input type="submit" value="Executar acao">
+        </form>
+
+
+    </body>
+
+</html>
